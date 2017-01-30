@@ -1,6 +1,6 @@
 <?php
 
-namespace video;
+namespace legacy;
 
 /**
  * Class ChildrensMovie
