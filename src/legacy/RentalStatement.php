@@ -10,7 +10,7 @@ class RentalStatement
     /** @var  string */
     private $name;
     /** @var  float */
-    private $totalAmount;
+    private $amount;
     /** @var  int */
     private $frequentRenterPoints;
     /** @var  array */
@@ -28,9 +28,12 @@ class RentalStatement
     /**
      * @param Rental $rental
      */
-    public function addRental($rental)
+    public function addRental(Rental $rental)
     {
         $this->rentals[] = $rental;
+
+        $this->amount += $rental->determineAmount();
+        $this->frequentRenterPoints += $rental->determineFrequentRenterPoints();
     }
 
     /**
@@ -38,18 +41,7 @@ class RentalStatement
      */
     public function makeRentalStatement()
     {
-        $this->clearTotals();
-
         return $this->makeHeader() . $this->makeRentalLines() . $this->makeSummary();
-    }
-
-    /**
-     * Reset amount and points.
-     */
-    private function clearTotals()
-    {
-        $this->totalAmount = 0;
-        $this->frequentRenterPoints = 0;
     }
 
     /**
@@ -68,7 +60,7 @@ class RentalStatement
         $rentalLines = "";
 
         foreach($this->rentals as $rental) {
-            $rentalLines .= $this->makeRentalLine($rental);
+            $rentalLines .= $this->formatRentalLine($rental);
         }
 
         return $rentalLines;
@@ -78,25 +70,9 @@ class RentalStatement
      * @param Rental $rental
      * @return string
      */
-    private function makeRentalLine($rental) : string
+    private function formatRentalLine(Rental $rental) : string
     {
-        /** @var float $thisAmount */
-        $thisAmount = $rental->determineAmount();
-
-        $this->frequentRenterPoints += $rental->determineFrequentRenterPoints();
-        $this->totalAmount += $thisAmount;
-
-        return $this->formatRentalLine($rental, $thisAmount);
-    }
-
-    /**
-     * @param Rental $rental
-     * @param float $thisAmount
-     * @return string
-     */
-    private function formatRentalLine($rental, $thisAmount) : string
-    {
-        return "\t" . $rental->title() . "\t" . number_format($thisAmount,1) . "\n";
+        return "\t" . $rental->title() . "\t" . number_format($rental->determineAmount(),1) . "\n";
     }
 
     /**
@@ -104,7 +80,8 @@ class RentalStatement
      */
     private function makeSummary() : string
     {
-        return "You owed " . $this->totalAmount . "\n" . "You earned " . $this->frequentRenterPoints . " frequent renter points\n";
+        return "You owed " . $this->amount . "\n" .
+               "You earned " . $this->frequentRenterPoints . " frequent renter points\n";
     }
 
     /**
@@ -122,7 +99,7 @@ class RentalStatement
      */
     public function amountOwed() : float
     {
-        return $this->totalAmount;
+        return $this->amount;
     }
 
     /**
