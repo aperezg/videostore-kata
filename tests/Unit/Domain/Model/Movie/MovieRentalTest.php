@@ -20,7 +20,7 @@ class MovieRentalTest extends PHPUnit_Framework_TestCase
     {
         $this->regularMovie = Movie::takeRegularMovie('Deadpool');
         $this->childrenMovie = Movie::takeChildrenMovie('Aladdin');
-        $this->newReleaseMovie = Movie::takeNewReleaseMove('Star Wars: Rogue One');
+        $this->newReleaseMovie = Movie::takeNewReleaseMovie('Star Wars: Rogue One');
     }
 
     /**
