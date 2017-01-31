@@ -27,7 +27,7 @@ class Movie
      */
     public static function takeRegularMovie(string $title) : self
     {
-        return static($title, MovieType::regularMovieType());
+        return new static($title, MovieType::regularMovieType());
     }
 
     /**
@@ -36,7 +36,7 @@ class Movie
      */
     public static function takeChildrenMovie(string $title) : self
     {
-        return static($title, MovieType::childrenMovieType());
+        return new static($title, MovieType::childrenMovieType());
     }
 
     /**
@@ -45,7 +45,7 @@ class Movie
      */
     public static function takeNewReleaseMove(string $title) : self
     {
-        return static($title, MovieType::newReleaseMovieType());
+        return new static($title, MovieType::newReleaseMovieType());
     }
 
     /**
@@ -53,7 +53,7 @@ class Movie
      */
     public function movieType(): MovieType
     {
-        return $this->movieType();
+        return $this->movieType;
     }
 
 }

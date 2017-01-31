@@ -31,7 +31,7 @@ class MovieType
      */
     public static function regularMovieType() : self
     {
-        return static(self::REGULAR_TYPE);
+        return new static(self::REGULAR_TYPE);
     }
 
     /**
@@ -39,7 +39,7 @@ class MovieType
      */
     public static function childrenMovieType() : self
     {
-        return static(self::CHILDREN_TYPE);
+        return new static(self::CHILDREN_TYPE);
     }
 
     /**
@@ -47,7 +47,7 @@ class MovieType
      */
     public static function newReleaseMovieType() : self
     {
-        return static(self::NEW_RELEASE_TYPE);
+        return new static(self::NEW_RELEASE_TYPE);
     }
 
     /**
