@@ -2,25 +2,28 @@
 
 namespace legacy;
 
+use Domain\Service\MovieRenter\DetermineAmount;
+use Domain\Service\MovieRenter\DetermineFrequentRenterPoints;
+
 /**
  * Class Rental
  */
 class Rental
 {
     /** @var  Movie */
-    private $movie;
+    private $legacyMovie;
 
     /** @var  int */
     private $daysRented;
 
     /**
      * Rental constructor.
-     * @param Movie $movie
+     * @param Movie $legacyMovie
      * @param int $daysRented
      */
-    public function __construct($movie, $daysRented)
+    public function __construct(Movie $legacyMovie, int $daysRented)
     {
-        $this->movie = $movie;
+        $this->legacyMovie = $legacyMovie;
         $this->daysRented = $daysRented;
     }
 
@@ -28,22 +31,23 @@ class Rental
      * Movie's title accessor.
      * @return string
      */
-    public function title() : string
+    public function title(): string
     {
-        return $this->movie->title();
+        return $this->legacyMovie->movie()->title();
     }
 
     /**
      * Movie's amount accessor.
      * @return float
      */
-    public function determineAmount() : float
+    public function determineAmount(): float
     {
-        return $this->movie->determineAmount($this->daysRented);
+        return DetermineAmount::instance($this->legacyMovie->movie())->calculateByRentedDays($this->daysRented);
     }
 
     public function determineFrequentRenterPoints()
     {
-        return $this->movie->determineFrequentRenterPoints($this->daysRented);
+        return DetermineFrequentRenterPoints::instance($this->legacyMovie->movie())
+            ->calculateByRentedDays($this->daysRented);
     }
 }

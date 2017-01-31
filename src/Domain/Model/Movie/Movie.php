@@ -56,4 +56,12 @@ class Movie
         return $this->movieType;
     }
 
+    /**
+     * @return string
+     */
+    public function title() : string
+    {
+        return $this->title;
+    }
+
 }
