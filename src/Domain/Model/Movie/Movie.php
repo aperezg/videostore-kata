@@ -43,7 +43,7 @@ class Movie
      * @param string $title
      * @return Movie
      */
-    public static function takeNewReleaseMove(string $title) : self
+    public static function takeNewReleaseMovie(string $title) : self
     {
         return new static($title, MovieType::newReleaseMovieType());
     }
@@ -54,6 +54,14 @@ class Movie
     public function movieType(): MovieType
     {
         return $this->movieType;
+    }
+
+    /**
+     * @return string
+     */
+    public function title() : string
+    {
+        return $this->title;
     }
 
 }

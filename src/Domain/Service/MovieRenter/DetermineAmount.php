@@ -1,17 +1,18 @@
 <?php
 
-namespace Domain\Model\Movie;
+namespace Domain\Service\MovieRenter;
 
 
-class MovieRental
+use Domain\Model\Movie\Movie;
+use Domain\Model\Movie\MovieType;
+
+class DetermineAmount
 {
-    /**
-     * @var Movie
-     */
+    /** @var  Movie */
     private $movie;
 
     /**
-     * MovieRental constructor.
+     * DetermineAmount constructor.
      * @param Movie $movie
      */
     private function __construct(Movie $movie)
@@ -21,7 +22,7 @@ class MovieRental
 
     /**
      * @param Movie $movie
-     * @return MovieRental
+     * @return DetermineAmount
      */
     public static function instance(Movie $movie) : self
     {
@@ -32,7 +33,7 @@ class MovieRental
      * @param int $daysRented
      * @return float
      */
-    public function determineAmount(int $daysRented): float
+    public function calculateByRentedDays(int $daysRented) : float
     {
         $amount = 0;
 
@@ -88,19 +89,5 @@ class MovieRental
     private function determineAmountForNewReleaseType(int $daysRented): float
     {
         return $daysRented * 3.0;
-    }
-
-    /**
-     * @param $daysRented
-     * @return int
-     */
-    public function determineFrequentRenterPoints($daysRented): int
-    {
-        $frequentRenterPoints = 1;
-        if ($this->movie->movieType()->type() == MovieType::NEW_RELEASE_TYPE && $daysRented > 1) {
-            $frequentRenterPoints++;
-        }
-
-        return $frequentRenterPoints;
     }
 }

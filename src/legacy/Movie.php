@@ -2,6 +2,8 @@
 
 namespace legacy;
 
+use Domain\Model\Movie\Movie as NewMovie;
+
 /**
  * Class Movie
  */
@@ -9,6 +11,9 @@ abstract class Movie
 {
     /** @var  string */
     private $title;
+
+    /** @var  NewMovie */
+    private $movie;
 
     /**
      * Movie constructor.
@@ -19,6 +24,16 @@ abstract class Movie
         $this->title = $title;
     }
 
+    public function movie() : NewMovie
+    {
+        return $this->movie;
+    }
+
+    protected function setMovie(NewMovie $movie)
+    {
+        $this->movie = $movie;
+    }
+
     /**
      * Title accessor.
      * @return string
@@ -27,8 +42,4 @@ abstract class Movie
     {
         return $this->title;
     }
-
-    abstract public function determineAmount($daysRented) : float;
-
-    abstract public function determineFrequentRenterPoints($daysRented) : int;
 }

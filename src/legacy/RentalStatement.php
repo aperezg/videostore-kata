@@ -2,19 +2,16 @@
 
 namespace legacy;
 
+use Domain\Model\Customer\Customer;
+use Domain\Model\Rental\RentalStatement as NewRentalStatement;
+
 /**
  * Class RentalStatement
  */
 class RentalStatement
 {
-    /** @var  string */
-    private $name;
-    /** @var  float */
-    private $amount;
-    /** @var  int */
-    private $frequentRenterPoints;
-    /** @var  array */
-    private $rentals;
+    /** @var  NewRentalStatement */
+    private $newRentalStatement;
 
     /**
      * RentalStatement constructor.
@@ -22,7 +19,8 @@ class RentalStatement
      */
     public function __construct($customerName)
     {
-        $this->name = $customerName;
+        $customer = Customer::create($customerName);
+        $this->newRentalStatement = NewRentalStatement::instance($customer);
     }
 
     /**
@@ -30,10 +28,7 @@ class RentalStatement
      */
     public function addRental(Rental $rental)
     {
-        $this->rentals[] = $rental;
-
-        $this->amount += $rental->determineAmount();
-        $this->frequentRenterPoints += $rental->determineFrequentRenterPoints();
+        $this->newRentalStatement->addRentalLines($rental->generateNewRental());
     }
 
     /**
@@ -41,56 +36,7 @@ class RentalStatement
      */
     public function makeRentalStatement()
     {
-        return $this->makeHeader() . $this->makeRentalLines() . $this->makeSummary();
-    }
-
-    /**
-     * @return string
-     */
-    private function makeHeader() : string
-    {
-        return "Rental Record for " . $this->name() . "\n";
-    }
-
-    /**
-     * @return string
-     */
-    private function makeRentalLines() : string
-    {
-        $rentalLines = "";
-
-        foreach($this->rentals as $rental) {
-            $rentalLines .= $this->formatRentalLine($rental);
-        }
-
-        return $rentalLines;
-    }
-
-    /**
-     * @param Rental $rental
-     * @return string
-     */
-    private function formatRentalLine(Rental $rental) : string
-    {
-        return "\t" . $rental->title() . "\t" . number_format($rental->determineAmount(),1) . "\n";
-    }
-
-    /**
-     * @return string
-     */
-    private function makeSummary() : string
-    {
-        return "You owed " . $this->amount . "\n" .
-               "You earned " . $this->frequentRenterPoints . " frequent renter points\n";
-    }
-
-    /**
-     * Name accessor.
-     * @return string
-     */
-    public function name() : string
-    {
-        return $this->name;
+        return $this->newRentalStatement->print();
     }
 
     /**
@@ -99,7 +45,7 @@ class RentalStatement
      */
     public function amountOwed() : float
     {
-        return $this->amount;
+        return $this->newRentalStatement->summary()->totalAmount();
     }
 
     /**
@@ -108,6 +54,6 @@ class RentalStatement
      */
     public function frequentRenterPoints() : int
     {
-        return $this->frequentRenterPoints;
+        return $this->newRentalStatement->summary()->frequenterPoints();
     }
 }

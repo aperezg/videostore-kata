@@ -2,48 +2,35 @@
 
 namespace legacy;
 
+use Domain\Model\Rental\Rental as NewRental;
+
 /**
  * Class Rental
  */
 class Rental
 {
     /** @var  Movie */
-    private $movie;
+    private $legacyMovie;
 
     /** @var  int */
     private $daysRented;
 
     /**
      * Rental constructor.
-     * @param Movie $movie
+     * @param Movie $legacyMovie
      * @param int $daysRented
      */
-    public function __construct($movie, $daysRented)
+    public function __construct(Movie $legacyMovie, int $daysRented)
     {
-        $this->movie = $movie;
+        $this->legacyMovie = $legacyMovie;
         $this->daysRented = $daysRented;
     }
 
     /**
-     * Movie's title accessor.
-     * @return string
+     * @return NewRental
      */
-    public function title() : string
+    public function generateNewRental()
     {
-        return $this->movie->title();
-    }
-
-    /**
-     * Movie's amount accessor.
-     * @return float
-     */
-    public function determineAmount() : float
-    {
-        return $this->movie->determineAmount($this->daysRented);
-    }
-
-    public function determineFrequentRenterPoints()
-    {
-        return $this->movie->determineFrequentRenterPoints($this->daysRented);
+        return NewRental::instance($this->legacyMovie->movie(), $this->daysRented);
     }
 }
