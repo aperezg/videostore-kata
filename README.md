@@ -1,6 +1,8 @@
 # Videostore Kata README #
 
 [![Build Status](https://travis-ci.org/aperezg/videostore-kata.svg?branch=master)](https://travis-ci.org/aperezg/videostore-kata)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/aperezg/videostore-kata/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/aperezg/videostore-kata/?branch=master)
+[![Code Coverage](https://scrutinizer-ci.com/g/aperezg/videostore-kata/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/aperezg/videostore-kata/?branch=master)
 
 This README would normally document whatever steps are necessary to get your application up and running. 
 
