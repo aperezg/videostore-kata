@@ -9,11 +9,6 @@ class MovieType
     const CHILDREN_TYPE = 1;
     const NEW_RELEASE_TYPE = 2;
 
-    private $allowedTypes = [
-        self::REGULAR_TYPE,
-        self::CHILDREN_TYPE,
-        self::NEW_RELEASE_TYPE
-    ];
 
     /** @var int */
     private $type;
@@ -63,10 +58,6 @@ class MovieType
      */
     private function setType(int $type)
     {
-        if (!in_array($type, $this->allowedTypes)) {
-            throw new \InvalidArgumentException("Type not allowed");
-        }
-
         $this->type = $type;
     }
 
