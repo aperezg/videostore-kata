@@ -1,0 +1,12 @@
+language: php
+php:
+  - 7.0
+
+before_install:
+  - composer self-update
+
+install:
+  - composer install --no-interaction --no-progress
+
+script:
+  - php bin/phpunit -v -c phpunit.xml.dist
